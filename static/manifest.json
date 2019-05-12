@@ -1,0 +1,7 @@
+{
+  "short_name": "Minidash",
+  "name": "Brian's Minidash Thing",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "portrait"
+}
