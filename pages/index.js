@@ -1,51 +1,6 @@
 import Head from 'next/head';
-import Moment from 'react-moment';
-
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      30000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);    
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
-    let timeOptions = {
-      hour: 'numeric', 
-      minute: 'numeric', 
-      hour12: false
-    }
-    let time = new Intl.DateTimeFormat("en-US", timeOptions).format(this.state.date);
-
-    let dateOptions = {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-    }
-    let date = new Intl.DateTimeFormat("en-US", dateOptions).format(this.state.date);
-    return (
-      <div className="datetime">
-        <div className="time">{time}</div>
-        <div className="date">{date}</div>
-      </div>
-    );
-  }
-}
+import Clock from '../components/clock';
+import { NumberBox, DayCountNumberBox } from "../components/numberbox";
 
 function Preamble() {
   return (
@@ -57,43 +12,6 @@ function Preamble() {
       <title>I am a page</title>
     </Head>
   );
-}
-
-class NumberBox extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  getNumber() {
-    return this.props.number;
-  }
-
-  render() {
-    return (
-      <div className="numberBox">
-        <div className="number">{this.getNumber()}</div>
-        <div className="description">{this.props.description}</div>
-      </div>
-    );
-  }
-}
-
-class DayCountNumberBox extends NumberBox {
-  constructor(props) {
-    super(props);
-  }
-
-  getNumber() {
-    return (
-      <div>
-        <Moment diff={this.props.since} unit="days">{new Date()}</Moment>
-      </div>
-    )
-  }
-}
-
-function Hello(props) {
-  return <div>Hello {props.name}!</div>
 }
 
 function Home() {
