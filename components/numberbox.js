@@ -25,15 +25,15 @@ class NumberBox extends React.Component {
   }
 }
 
-class DayCountNumberBox extends NumberBox {
+class DayCountNumberBox extends React.Component {
   constructor(props) {
-    super({
-      number: moment().diff(props.since, "days"),
-      since: props.since
-    });
+    super(props);
+    this.state = {
+      numDays: this.calculateNumDays()
+    }
   }
 
-  getNumDays() {
+  calculateNumDays() {
     return moment().diff(this.props.since, "days");
   }
   
@@ -55,7 +55,12 @@ class DayCountNumberBox extends NumberBox {
   updateNumDays() {
     this.setNumber(this.getNumDays());
   }
-}
 
+  render() {
+    return (
+      <NumberBox number={this.state.numDays} description={this.props.description} />
+    );
+  }
+}
 
 export { DayCountNumberBox, NumberBox };
