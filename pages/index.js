@@ -22,7 +22,7 @@ function Home() {
       <Clock />
   
       <div className="gridContainer">
-        <Tile><DayCountNumberBox since="2019-05-10" description="Daddy days without chips" /></Tile>
+        <Tile><DayCountNumberBox dateId="lastChipDay" description="Daddy days without chips" /></Tile>
         <Tile><NumberBox number="25" description="Michael's gold coins" /></Tile>
         <Tile><NumberBox number="25" description="Caitlin's gold coins" /></Tile>
         <Tile>Hello</Tile>

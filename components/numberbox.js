@@ -9,10 +9,8 @@ class NumberBox extends React.Component {
     }
   }
 
-  setNumber(aNumber) {
-    this.setState({
-      number: aNumber
-    });
+  componentWillReceiveProps(props) {
+    this.setState({ number: props.number });
   }
 
   render() {
@@ -29,12 +27,18 @@ class DayCountNumberBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      numDays: this.calculateNumDays()
+      numDays: this.calculateNumDays(this.props.since)
     }
   }
 
-  calculateNumDays() {
-    return moment().diff(this.props.since, "days");
+  calculateNumDays(sinceDate) {
+    return moment().diff(sinceDate, "days");
+  }
+
+  async fetchDate(dateId) {
+    let response = await fetch("http://cowbee.local:3000/dates/" + this.props.dateId);
+    let data = await response.json();
+    return data;
   }
   
   componentDidMount() {
@@ -42,6 +46,14 @@ class DayCountNumberBox extends React.Component {
       () => this.tick(),
       43200000
     );
+
+    if (this.props.dateId != null) {
+      this.fetchDate().then(data => {
+          this.setState({
+            numDays: this.calculateNumDays(data.value)
+          });
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -49,11 +61,13 @@ class DayCountNumberBox extends React.Component {
   }
 
   tick() {
-    updateNumDays();
+    updateNumDays(this.props.since);
   }
 
-  updateNumDays() {
-    this.setNumber(this.getNumDays());
+  updateNumDays(sinceDate) {
+    this.setState({
+      numDays: this.calculateNumDays(sinceDate)
+    });
   }
 
   render() {
