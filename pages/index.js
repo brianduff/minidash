@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Clock from '../components/clock';
+import Tile from '../components/tile';
 import { NumberBox, DayCountNumberBox } from "../components/numberbox";
 
 function Preamble() {
@@ -21,9 +22,10 @@ function Home() {
       <Clock />
   
       <div className="gridContainer">
-        <DayCountNumberBox since="2019-05-10" description="Daddy days without chips" />
-        <NumberBox number="25" description="Michael's gold coins" />
-        <NumberBox number="25" description="Caitlin's gold coins" />
+        <Tile><DayCountNumberBox since="2019-05-10" description="Daddy days without chips" /></Tile>
+        <Tile><NumberBox number="25" description="Michael's gold coins" /></Tile>
+        <Tile><NumberBox number="25" description="Caitlin's gold coins" /></Tile>
+        <Tile>Hello</Tile>
       </div>
     </div>
   );  
