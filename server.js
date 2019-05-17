@@ -9,9 +9,13 @@ const handle = app.getRequestHandler()
 const loki = require("lokijs")
 const db = new loki("loki.json", {autosave: true, autosaveInterval: 5000, autoload: true});
 
-var c = db.addCollection("GoldCoins");
-c.insert({name:'michael', coins: 10});
-c.insert({name:'caitlin', coins: 40});
+function getOrCreateCollection(collectionName) {
+  var col = db.getCollection(collectionName);
+  if (col == null) {
+    col = db.addCollection(collectionName);
+  }
+  return col;
+}
 
 app
   .prepare()
@@ -20,8 +24,16 @@ app
 
     server.use(express.json());
 
+    // Initializes (or resets) the db with some data
+    server.get("/initdb", (req, res) => {
+      var c = getOrCreateCollection("GoldCoins");
+      c.insert({name:'michael', coins: 10});
+      c.insert({name:'caitlin', coins: 40});
+      res.send("OK")
+    })
+
     server.get("/goldcoins/:name", (req, res) => {
-      var c = db.getCollection("GoldCoins")
+      var c = getOrCreateCollection("GoldCoins")
       var record = c.find( {name: req.params.name})
       if (record.length == 0) {
         res.status(404).send("Not Found")
