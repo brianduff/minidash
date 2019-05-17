@@ -1,5 +1,5 @@
 import Moment from 'react-moment';
-var moment = require('moment');
+const moment = require('moment');
 
 class NumberBox extends React.Component {
   constructor(props) {
