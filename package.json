@@ -4,6 +4,7 @@
   "description": "Minidash",
   "main": "index.js",
   "dependencies": {
+    "commander": "^2.20.0",
     "express": "^4.17.0",
     "isomorphic-unfetch": "^3.0.0",
     "lokijs": "^1.5.6",
