@@ -6,6 +6,7 @@ class Tile extends React.Component {
   render() {
     return (
       <div className={"Tile Tile-" + this.props.color}>
+        <span>Hey Autopush!</span>
         {this.props.children}
       </div>
     );
@@ -14,6 +15,6 @@ class Tile extends React.Component {
 
 Tile.defaultProps = {
   color: "black"
-}
+};
 
 export default Tile;
