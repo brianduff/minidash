@@ -25,9 +25,6 @@ execInDir(minidashDir, "npm", "install");
 // 3. build the optimized production build.
 execInDir(minidashDir, "npm", "run-script", "build");
 
-// 4. stop the running instance. It's ok if this fails.
-launchctl.stopService();
-
 // 5. Move the live version away to a tmpdir.
 const oldDir = fs.mkdtempSync(path.join(os.tmpdir(), "minidash-"));
 if (fs.existsSync(liveDir)) {
@@ -39,4 +36,5 @@ fs.renameSync(installDir, liveDir);
 //    already exist, then reload and start the service.
 launchctl.linkSystemCtl(liveDir);
 launchctl.loadService();
+launchctl.stopService();
 launchctl.startService();
