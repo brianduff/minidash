@@ -8,6 +8,14 @@ Restart=always
 ExecStart=/usr/bin/npm run dev
 WorkingDirectory=/home/brianduff/Development/minidash
 User=brianduff
+Environment=NODE_ENV=production
+
+LimitNOFILE=infinity
+LimitCORE=infinity
+
+StandardInput=null
+StandardOutput=syslog
+StandardError=syslog
 
 [Install]
 WantedBy=multi-user.target
