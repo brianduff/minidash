@@ -14,5 +14,10 @@
     <string>/Users/brianduff/minidash-deploy/minidash</string>
     <key>KeepAlive</key>
     <true />
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>NODE_ENV</key>
+      <string>production</string>
+    </dict>
   </dict>
 </plist>
