@@ -61,6 +61,15 @@ exports.startService = function() {
   }
 };
 
+exports.restartService = function() {
+  if (process.platform == "darwin") {
+    exports.stopService();
+    exports.startService();
+  } else {
+    exec(getSystemCtl(), "--user", "restart", getServiceName());
+  }
+};
+
 exports.linkSystemCtl = function(liveDir) {
   let filename = LINUX_FILENAME;
   if (process.platform == "darwin") {

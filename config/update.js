@@ -35,6 +35,4 @@ fs.renameSync(installDir, liveDir);
 // 6. Symlink the systemctl config file to the right place if it doesn't
 //    already exist, then reload and start the service.
 launchctl.linkSystemCtl(liveDir);
-launchctl.loadService();
-launchctl.stopService();
-launchctl.startService();
+launchctl.restartService();
