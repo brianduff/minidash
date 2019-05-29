@@ -1,4 +1,4 @@
-const { execInShell } = require("config/process_helper");
+const { execInShell } = require("./config/process_helper");
 const os = require("os");
 const path = require("path");
 
