@@ -1,3 +1,0 @@
-brianduff ALL=/usr/bin/systemctl restart minidash
-brianduff ALL=/usr/bin/systemctl stop minidash
-brianduff ALL=/usr/bin/systemctl start minidash
