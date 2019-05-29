@@ -6,4 +6,9 @@ After=network.target
 Type=simple
 Restart=always
 ExecStart=/usr/bin/npm run dev
+WorkingDirectory=/home/brianduff/Development/minidash
 User=brianduff
+
+[Install]
+WantedBy=multi-user.target
+
