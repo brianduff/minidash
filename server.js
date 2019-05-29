@@ -2,6 +2,7 @@ const express = require("express");
 const next = require("next");
 const os = require("os");
 const path = require("path");
+const github = require("./github_updater");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -84,10 +85,7 @@ app
     });
 
     // Github web hook!
-    server.post("/github", (req, res) => {
-      console.log("I was called by github. Yay!");
-      res.send("OK");
-    });
+    server.post("/github", github.onPush);
 
     server.get("*", (req, res) => {
       return handle(req, res);
