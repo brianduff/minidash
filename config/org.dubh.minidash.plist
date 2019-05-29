@@ -4,18 +4,30 @@
   <dict>
     <key>Label</key>
     <string>org.dubh.minidash</string>
+
     <key>ProgramArguments</key>
     <array>
-      <string>/Users/brianduff/minidash-deploy/minidash/config/start.sh</string>
+      <string>/usr/local/bin/npm</string>
+      <string>run</string>
+      <string>dev</string>
     </array>
+
     <key>WorkingDirectory</key>
     <string>/Users/brianduff/minidash-deploy/minidash</string>
+
     <key>KeepAlive</key>
     <true />
+
+    <key>RunAtLoad</key>
+    <true/>
+
     <key>EnvironmentVariables</key>
     <dict>
       <key>NODE_ENV</key>
       <string>production</string>
+
+      <key>PATH</key>
+      <string>/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin</string>
     </dict>
   </dict>
 </plist>
