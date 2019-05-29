@@ -31,6 +31,7 @@ function getServiceName() {
 
 exports.loadService = function() {
   if (process.platform == "darwin") {
+    exec("launchctl", "unload", getConfigFile());
     exec("launchctl", "load", getConfigFile());
   } else {
     exec("systemctl", "--user", "daemon-reload");

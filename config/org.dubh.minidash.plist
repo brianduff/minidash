@@ -6,9 +6,7 @@
     <string>org.dubh.minidash</string>
     <key>ProgramArguments</key>
     <array>
-      <string>/usr/local/bin/npm</string>
-      <string>run</string>
-      <string>dev</string>
+      <string>/Users/brianduff/minidash-deploy/minidash/config/start.sh</string>
     </array>
     <key>WorkingDirectory</key>
     <string>/Users/brianduff/minidash-deploy/minidash</string>
