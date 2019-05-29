@@ -28,6 +28,13 @@ function fetchSingleRecord(collectionName, searchParams) {
   return record[0];
 }
 
+var args = require('commander');
+
+args
+  .version('1.0')
+  .option('-p, --port <n>', 'Port number', 8080)
+  .parse(process.argv);
+
 app
   .prepare()
   .then(() => {
@@ -74,9 +81,9 @@ app
       return handle(req, res)
     })
 
-    server.listen(3000, err => {
+    server.listen(args.port, err => {
       if (err) throw err
-      console.log("Ready on port 3000")
+      console.log("Ready on port %s", args.port)
     })
   })
   .catch(ex => {

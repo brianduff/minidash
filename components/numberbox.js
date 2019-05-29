@@ -36,7 +36,7 @@ class DayCountNumberBox extends React.Component {
   }
 
   async fetchDate(dateId) {
-    let response = await fetch("http://cowbee.local:3000/dates/" + this.props.dateId);
+    let response = await fetch("/dates/" + this.props.dateId);
     let data = await response.json();
     return data;
   }
