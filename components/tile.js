@@ -6,7 +6,6 @@ class Tile extends React.Component {
   render() {
     return (
       <div className={"Tile Tile-" + this.props.color}>
-        <span>Hey Gargarin!</span>
         {this.props.children}
       </div>
     );
