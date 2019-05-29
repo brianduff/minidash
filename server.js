@@ -83,6 +83,11 @@ app
       return res.json({ hello: "world" });
     });
 
+    // Github web hook!
+    server.post("/github", (req, res) => {
+      console.log("I was called by github. Yay!");
+    });
+
     server.get("*", (req, res) => {
       return handle(req, res);
     });
