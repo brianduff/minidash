@@ -5,6 +5,5 @@ After=network.target
 [Service]
 Type=simple
 Restart=always
-RootDirectory=/home/brianduff/Development/minidash
 ExecStart=/usr/bin/npm run dev
 User=brianduff
