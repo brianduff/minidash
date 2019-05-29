@@ -3,8 +3,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const process = require("process");
-const { exec, execInDir } = require("./process_helper");
+const { execInDir } = require("./process_helper");
 const launchctl = require("./launchctl");
 
 const liveDir = path.join(os.homedir(), "minidash-deploy");
