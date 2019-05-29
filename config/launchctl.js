@@ -15,11 +15,18 @@ function getSystemCtl() {
   return process.platform == "darwin" ? "launchctl" : "systemctl";
 }
 
+function getConfigDirPath() {
+  if (process.platform == "darwin") {
+    return path.join(os.homedir(), DARWIN_CONFIG_DIR);
+  }
+  return path.join(os.homedir(), LINUX_CONFIG_DIR);
+}
+
 function getConfigFile() {
   if (process.platform == "darwin") {
-    return path.join(os.homedir(), DARWIN_CONFIG_DIR + DARWIN_FILENAME);
+    return path.join(getConfigDirPath(), DARWIN_FILENAME);
   }
-  return path.join(os.homedir(), LINUX_CONFIG_DIR, LINUX_FILENAME);
+  return path.join(getConfigDirPath(), LINUX_FILENAME);
 }
 
 function getServiceName() {
@@ -59,6 +66,10 @@ exports.linkSystemCtl = function(liveDir) {
   if (process.platform == "darwin") {
     filename = DARWIN_FILENAME;
   }
+  if (!fs.existsSync(getConfigDirPath())) {
+    fs.mkdirSync(getConfigDirPath(), { recursive: true });
+  }
+
   if (!fs.existsSync(getConfigFile())) {
     fs.symlinkSync(
       path.join(liveDir, "minidash/config/" + filename),
