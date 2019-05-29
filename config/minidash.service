@@ -6,8 +6,8 @@ After=network.target
 Type=simple
 Restart=always
 ExecStart=/usr/bin/npm run dev
-WorkingDirectory=/home/brianduff/Development/minidash
-User=brianduff
+WorkingDirectory=/home/minidash/minidash-deploy/minidash
+User=minidash
 Environment=NODE_ENV=production
 
 LimitNOFILE=infinity
