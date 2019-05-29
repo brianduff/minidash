@@ -39,11 +39,19 @@ exports.loadService = function() {
 };
 
 exports.stopService = function() {
-  exec(getSystemCtl(), "stop", getServiceName());
+  if (process.platform == "darwin") {
+    exec(getSystemCtl(), "stop", getServiceName());
+  } else {
+    exec(getSystemCtl(), "--user", "stop", getServiceName());
+  }
 };
 
 exports.startService = function() {
-  exec(getSystemCtl(), "start", getServiceName());
+  if (process.platform == "darwin") {
+    exec(getSystemCtl(), "start", getServiceName());
+  } else {
+    exec(getSystemCtl(), "--user", "start", getServiceName());
+  }
 };
 
 exports.linkSystemCtl = function(liveDir) {
