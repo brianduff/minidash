@@ -45,6 +45,10 @@ class Persist {
   getRecord(collectionId, searchParams) {
     return this._fetchSingleRecord(collectionId, searchParams);
   }
+
+  getOnlyRecord(collectionId) {
+    return this._getOrCreateCollection(collectionId).get(1);
+  }
 }
 
 exports.Persist = Persist;
