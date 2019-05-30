@@ -10,7 +10,7 @@ const liveDir = path.join(os.homedir(), "minidash-deploy");
 
 const installDir = fs.mkdtempSync(path.join(os.tmpdir(), "minidash-"));
 
-// 1. Clone from git.
+// Clone from git.
 execInDir(
   installDir,
   "git",
@@ -19,20 +19,28 @@ execInDir(
 );
 const minidashDir = path.join(installDir, "minidash");
 
-// 2. npm install.
+// decrypt secrets.
+execInDir(
+  minidashDir,
+  "git-crypt",
+  "unlock",
+  path.join(os.homedir(), ".minidash-secret")
+);
+
+// npm install.
 execInDir(minidashDir, "npm", "install");
 
-// 3. build the optimized production build.
+// build the optimized production build.
 execInDir(minidashDir, "npm", "run-script", "build");
 
-// 5. Move the live version away to a tmpdir.
+// Move the live version away to a tmpdir.
 const oldDir = fs.mkdtempSync(path.join(os.tmpdir(), "minidash-"));
 if (fs.existsSync(liveDir)) {
   fs.renameSync(liveDir, oldDir);
 }
 fs.renameSync(installDir, liveDir);
 
-// 6. Symlink the systemctl config file to the right place if it doesn't
-//    already exist, then reload and start the service.
+// Symlink the systemctl config file to the right place if it doesn't
+// already exist, then reload and start the service.
 launchctl.linkSystemCtl(liveDir);
 launchctl.restartService();
