@@ -16,6 +16,8 @@ const db = new loki(dbFilePath, {
   autoload: true
 });
 
+const fitbit = require("./fitbit/fitbit");
+
 function getOrCreateCollection(collectionName) {
   var col = db.getCollection(collectionName);
   if (col == null) {
@@ -48,6 +50,8 @@ app
     const server = express();
 
     server.use(express.json());
+
+    fitbit.install(server);
 
     // Initializes (or resets) the db with some data
     server.get("/initdb", (req, res) => {

@@ -6,6 +6,7 @@
   "dependencies": {
     "commander": "^2.20.0",
     "express": "^4.17.0",
+    "fitbit-node": "^2.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "lokijs": "^1.5.6",
     "moment": "^2.24.0",
