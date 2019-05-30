@@ -20,12 +20,15 @@ execInDir(
 const minidashDir = path.join(installDir, "minidash");
 
 // decrypt secrets.
-execInDir(
-  minidashDir,
-  "git-crypt",
-  "unlock",
-  path.join(os.homedir(), ".minidash-secret")
-);
+const secretFile = path.join(os.homedir(), ".minidash-secret");
+if (!fs.existsSync(secretFile)) {
+  console.log(
+    "WARNING: The secret file '%s' is missing. Unable to decrypt secrets",
+    secretFile
+  );
+}
+
+execInDir(minidashDir, "git-crypt", "unlock", secretFile);
 
 // npm install.
 execInDir(minidashDir, "npm", "install");
