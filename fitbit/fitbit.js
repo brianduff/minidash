@@ -12,7 +12,6 @@ function authCallback(req, res) {
   client
     .getAccessToken(req.query.code, CALLBACK_URL)
     .then(result => {
-      d;
       console.log("Access token: %s", result.access_token);
       console.log("Refresh token: %s", result.refresh_token);
       res.send("OK");
