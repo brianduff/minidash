@@ -23,7 +23,6 @@ function Home() {
     <div>
       <Preamble />
       <Clock />
-
       <div className="gridContainer">
         <Tile>
           <DayCountNumberBox

@@ -27,7 +27,7 @@ class Persist {
   }
 
   _fetchSingleRecord(collectionId, searchParams) {
-    let c = getOrCreateCollection(collectionId);
+    let c = this._getOrCreateCollection(collectionId);
     let record = c.find(searchParams);
     if (record.length == 0) {
       return null;
