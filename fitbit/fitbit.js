@@ -1,6 +1,5 @@
 const FitbitApiClient = require("fitbit-node");
 const fs = require("fs");
-const CALLBACK_URL = "http://localhost:8080/fitbit/authcallback";
 const redis = require("redis");
 const { promisify } = require("util");
 
@@ -14,13 +13,25 @@ redisClient.on("error", function(err) {
 
 let client = undefined;
 
+function getCallbackUrl() {
+  // Hack hack
+  let username = require("os").userInfo().username;
+  if ("minidash" == username) {
+    // Running in production
+    return "https://minidash.dubh.org/fitbit/authcallback";
+  } else {
+    // Running on a local dev machine
+    return "http://localhost:8080/fitbit/authcallback";
+  }
+}
+
 function authorize(req, res) {
-  res.redirect(client.getAuthorizeUrl("weight", CALLBACK_URL));
+  res.redirect(client.getAuthorizeUrl("weight", getCallbackUrl()));
 }
 
 function authCallback(req, res) {
   client
-    .getAccessToken(req.query.code, CALLBACK_URL)
+    .getAccessToken(req.query.code, getCallbackUrl())
     .then(result => {
       console.log("Access token: %s", result.access_token);
       console.log("Refresh token: %s", result.refresh_token);
