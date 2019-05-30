@@ -7,37 +7,11 @@ const github = require("./github_updater");
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-
-const loki = require("lokijs");
-const dbFilePath = path.join(os.homedir(), "loki.json");
-const db = new loki(dbFilePath, {
-  autosave: true,
-  autosaveInterval: 5000,
-  autoload: true
-});
-
+const persist = require("./persist/persist");
 const fitbit = require("./fitbit/fitbit");
+const args = require("commander");
 
-function getOrCreateCollection(collectionName) {
-  var col = db.getCollection(collectionName);
-  if (col == null) {
-    col = db.addCollection(collectionName);
-  }
-  return col;
-}
-
-function fetchSingleRecord(collectionName, searchParams) {
-  var c = getOrCreateCollection(collectionName);
-  var record = c.find(searchParams);
-  if (record.length == 0) {
-    return null;
-  }
-  delete record[0].meta;
-  delete record[0].$loki;
-  return record[0];
-}
-
-var args = require("commander");
+const db = new persist.Persist("trinket");
 
 args
   .version("1.0")
@@ -55,18 +29,16 @@ app
 
     // Initializes (or resets) the db with some data
     server.get("/initdb", (req, res) => {
-      var coins = getOrCreateCollection("GoldCoins");
-      coins.insert({ name: "michael", coins: 10 });
-      coins.insert({ name: "caitlin", coins: 40 });
+      db.putRecord("GoldCoins", { name: "michael", coins: 10 });
+      db.putRecord("GoldCoins", { name: "caitlin", coins: 40 });
 
-      var dates = getOrCreateCollection("Dates");
-      dates.insert({ name: "lastChipDay", value: "2019-05-10" });
+      db.putRecord("Dates", { name: "lastChipDay", value: "2019-05-10" });
 
       res.send("OK");
     });
 
     server.get("/dates/:name", (req, res) => {
-      var record = fetchSingleRecord("Dates", { name: req.params.name });
+      var record = db.getRecord("Dates", { name: req.params.name });
       if (record == null) {
         res.status(404).send("Not Found");
         return;
@@ -75,7 +47,7 @@ app
     });
 
     server.get("/goldcoins/:name", (req, res) => {
-      var record = fetchSingleRecord("GoldCoins", { name: req.params.name });
+      var record = db.getRecord("GoldCoins", { name: req.params.name });
       if (record == null) {
         res.status(404).send("Not Found");
         return;
