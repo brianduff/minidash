@@ -9,8 +9,8 @@ import { NumberBox, DayCountNumberBox } from "../components/numberbox";
 function Preamble() {
   return (
     <Head>
-      <link rel="manifest" href="/static/manifest.json" />
-      <link rel="stylesheet" href="/static/style.css" type="text/css" />
+      <link rel="manifest" href="manifest.json" />
+      <link rel="stylesheet" href="style.css" type="text/css" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <link
         href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400"

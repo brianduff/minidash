@@ -25,6 +25,7 @@ app
     const server = express();
 
     server.use(express.json());
+    server.use(express.static("static"));
 
     fitbit.install(server);
 
