@@ -6,6 +6,7 @@ const { promisify } = require("util");
 const redisClient = redis.createClient();
 const getAsync = promisify(redisClient.get).bind(redisClient);
 const zaddAsync = promisify(redisClient.zadd).bind(redisClient);
+const zrangeAsync = promisify(redisClient.zrange).bind(redisClient);
 
 redisClient.on("error", function(err) {
   console.log("Redis Error: %s", err);
@@ -72,11 +73,29 @@ async function getWeight(req, res) {
   }
 }
 
+async function getData(req, res) {
+  let result = await zrangeAsync(
+    "minidash.fitbit." + req.params.dataset,
+    0,
+    -1,
+    "withscores"
+  );
+  let resultArray = [];
+  for (let i = 0; i < result.length; i += 2) {
+    resultArray.push({
+      time: result[i + 1],
+      data: result[i]
+    });
+  }
+  res.send(resultArray);
+}
+
 // Installs support for fitbit related URLs into the express server
 exports.install = function(server) {
   server.get("/fitbit/authorize", authorize);
   server.get("/fitbit/authcallback", authCallback);
   server.get("/fitbit/test", getWeight);
+  server.get("/fitbit/:dataset", getData);
 
   let rawdata = fs.readFileSync("secrets/fitbit.json");
   let fitbitSecrets = JSON.parse(rawdata);

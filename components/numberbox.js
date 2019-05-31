@@ -1,22 +1,30 @@
-import Moment from 'react-moment';
-const moment = require('moment');
+import Moment from "react-moment";
+const moment = require("moment");
 
 class NumberBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: props.number
-    }
+      number: props.number,
+      criticality: props.criticality,
+      description: props.description
+    };
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ number: props.number });
+    this.setState({
+      number: props.number,
+      criticality: props.criticality,
+      description: props.decription
+    });
   }
 
   render() {
     return (
       <div className="numberBox">
-        <div className="number">{this.state.number}</div>
+        <div className={"number " + this.state.criticality}>
+          {this.state.number}
+        </div>
         <div className="description">{this.props.description}</div>
       </div>
     );
@@ -28,7 +36,7 @@ class DayCountNumberBox extends React.Component {
     super(props);
     this.state = {
       numDays: this.calculateNumDays(this.props.since)
-    }
+    };
   }
 
   calculateNumDays(sinceDate) {
@@ -40,24 +48,21 @@ class DayCountNumberBox extends React.Component {
     let data = await response.json();
     return data;
   }
-  
+
   componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      43200000
-    );
+    this.timerID = setInterval(() => this.tick(), 43200000);
 
     if (this.props.dateId != null) {
       this.fetchDate().then(data => {
-          this.setState({
-            numDays: this.calculateNumDays(data.value)
-          });
+        this.setState({
+          numDays: this.calculateNumDays(data.value)
+        });
       });
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);    
+    clearInterval(this.timerID);
   }
 
   tick() {
@@ -72,7 +77,10 @@ class DayCountNumberBox extends React.Component {
 
   render() {
     return (
-      <NumberBox number={this.state.numDays} description={this.props.description} />
+      <NumberBox
+        number={this.state.numDays}
+        description={this.props.description}
+      />
     );
   }
 }

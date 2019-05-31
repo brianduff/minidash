@@ -45,6 +45,10 @@ body {
   font-weight: 200;
 }
 
+.numberBox .number.high {
+  color: red;
+}
+
 .numberBox .description {
   color: rgb(150, 150, 150);
 }

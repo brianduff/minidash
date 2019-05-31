@@ -2,6 +2,8 @@ import Head from "next/head";
 import Clock from "../components/clock";
 import Tile from "../components/tile";
 import Version from "../components/version";
+import BMI from "../components/fitness";
+
 import { NumberBox, DayCountNumberBox } from "../components/numberbox";
 
 function Preamble() {
@@ -36,6 +38,9 @@ function Home() {
         </Tile>
         <Tile>
           <NumberBox number="25" description="Caitlin's gold coins" />
+        </Tile>
+        <Tile>
+          <BMI />
         </Tile>
       </div>
       <Version />

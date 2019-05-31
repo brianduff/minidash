@@ -6,10 +6,6 @@ class Version extends React.Component {
     };
   }
 
-  calculateNumDays(sinceDate) {
-    return moment().diff(sinceDate, "days");
-  }
-
   async fetchVersion() {
     let response = await fetch("/versionInfo/");
     return await response.json();
