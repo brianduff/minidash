@@ -53,6 +53,10 @@ body {
   color: yellow;
 }
 
+.numberBox .number.good {
+  color: green;
+}
+
 .numberBox .description {
   color: rgb(150, 150, 150);
 }

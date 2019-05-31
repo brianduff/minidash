@@ -2,7 +2,7 @@ import Head from "next/head";
 import Clock from "../components/clock";
 import Tile from "../components/tile";
 import Version from "../components/version";
-import BMI from "../components/fitness";
+import { BMI, Weight } from "../components/fitness";
 
 import { NumberBox, DayCountNumberBox } from "../components/numberbox";
 
@@ -34,13 +34,10 @@ function Home() {
           />
         </Tile>
         <Tile>
-          <NumberBox number="25" description="Michael's gold coins" />
-        </Tile>
-        <Tile>
-          <NumberBox number="25" description="Caitlin's gold coins" />
-        </Tile>
-        <Tile>
           <BMI />
+        </Tile>
+        <Tile>
+          <Weight weightGoal="180" />
         </Tile>
       </div>
       <Version />
