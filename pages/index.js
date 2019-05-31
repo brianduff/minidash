@@ -14,7 +14,7 @@ function Preamble() {
         href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400"
         rel="stylesheet"
       />
-      <title>I am a page</title>
+      <title>Minidash</title>
     </Head>
   );
 }
