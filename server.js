@@ -2,6 +2,7 @@ const express = require("express");
 const next = require("next");
 const os = require("os");
 const path = require("path");
+const fs = require("fs");
 const github = require("./github_updater");
 
 const dev = process.env.NODE_ENV !== "production";
@@ -62,6 +63,13 @@ app
 
     // Github web hook!
     server.post("/github", github.onPush);
+
+    server.get("/versioninfo", (req, res) => {
+      let sha = fs.readFileSync(".git/refs/heads/master", "utf8");
+      return res.json({
+        commit: sha.trim()
+      });
+    });
 
     server.get("*", (req, res) => {
       return handle(req, res);
