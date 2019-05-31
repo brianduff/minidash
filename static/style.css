@@ -49,6 +49,10 @@ body {
   color: red;
 }
 
+.numberBox .number.medium {
+  color: yellow;
+}
+
 .numberBox .description {
   color: rgb(150, 150, 150);
 }

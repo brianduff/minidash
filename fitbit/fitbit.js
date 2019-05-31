@@ -57,7 +57,9 @@ async function getWeight(req, res) {
       "Accept-Language": "en_US"
     }
   );
-  res.send(results[0]);
+  if (res != null) {
+    res.send(results[0]);
+  }
 
   // Push the results into redis
   for (let i = 0; i < results[0].weight.length; i++) {
@@ -88,6 +90,10 @@ async function getData(req, res) {
     });
   }
   res.send(resultArray);
+
+  // This is a bit weird, but schedule an update from fitbit so data is fresh
+  // next time.
+  getWeight();
 }
 
 // Installs support for fitbit related URLs into the express server
