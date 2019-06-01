@@ -30,16 +30,16 @@ function authorize(req, res) {
   res.redirect(client.getAuthorizeUrl("weight", getCallbackUrl()));
 }
 
+function _storeAccessTokens(tokens) {
+  redisClient.set("minidash.fitbit.accessToken", tokens.access_token);
+  redisClient.set("minidash.fitbit.refreshToken", tokens.refresh_token);
+}
+
 function authCallback(req, res) {
   client
     .getAccessToken(req.query.code, getCallbackUrl())
     .then(result => {
-      console.log("Access token: %s", result.access_token);
-      console.log("Refresh token: %s", result.refresh_token);
-
-      redisClient.set("minidash.fitbit.accessToken", result.access_token);
-      redisClient.set("minidash.fitbit.refreshToken", result.refresh_token);
-
+      _storeAccessTokens(result);
       res.send("OK");
     })
     .catch(err => {
@@ -47,9 +47,8 @@ function authCallback(req, res) {
     });
 }
 
-async function getWeight(req, res) {
-  let accessToken = await getAsync("minidash.fitbit.accessToken");
-  let results = await client.get(
+async function _getWeightImpl(accessToken) {
+  return await client.get(
     "/body/log/weight/date/2019-05-30/1m.json",
     accessToken,
     null,
@@ -57,6 +56,45 @@ async function getWeight(req, res) {
       "Accept-Language": "en_US"
     }
   );
+}
+
+function _hasExpiredTokenError(results) {
+  if (results[0] && results[0].errors) {
+    for (let error of results[0].errors) {
+      if (error.errorType == "expired_token") {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+async function getWeight(req, res) {
+  let accessToken = await getAsync("minidash.fitbit.accessToken");
+  let results = await _getWeightImpl(accessToken);
+
+  console.log("Requesting weight");
+  if (_hasExpiredTokenError(results)) {
+    let refreshToken = await getAsync("minidash.fitbit.refreshToken");
+    console.log(
+      "Fitbit access token exired. Refreshing.",
+      accessToken,
+      refreshToken
+    );
+    try {
+      let tokens = await client.refreshAccessToken(accessToken, refreshToken);
+      _storeAccessTokens(tokens);
+      accessToken = tokens.access_token;
+      results = await _getWeightImpl(accessToken);
+    } catch (err) {
+      // Refreshing the token was rejected. We have to re-auth.
+      authorize(req, res);
+      return;
+
+      // This is an ugly mess :()
+    }
+  }
+
   if (res != null) {
     res.send(results[0]);
   }
